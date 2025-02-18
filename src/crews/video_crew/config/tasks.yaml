@@ -1,0 +1,12 @@
+
+create_video_task:
+  description: >
+    Make a video with the given parameters below.
+    Use {audio_files_folder_path} as audio files folder path
+    Use {timeline_files_folder_path} as timeline files folder path
+    Use {video_folder} as video folder
+    Save the output file at {save_path}
+    Use {combined} as combined value
+  expected_output: >
+    The output file should be saved at {save_path}.
+  agent: video_creator_agent

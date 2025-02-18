@@ -1,0 +1,23 @@
+
+pexels_find_video_task:
+  description: >
+    Find videos for the keyword '{keyword}' using Pexels. 
+    Videos should be filtered by the following criteria:
+    orientation: {orientation}
+    size: {size}
+  expected_output: >
+    The output must follow the pydantic schema strictly. There will be penalty if not followed.
+
+  agent: pexels_video_finder_agent
+
+
+video_download_task:
+  description: >
+    Download the videos from the links provided by pexels_video_finder_agent.
+    all necessary information is provided by pexels_video_finder_agent.    
+    parse it and arrange it in a way that you can download the videos.
+    you will use the video ids as the filename. 
+
+  expected_output: >
+    The video file saved in the output/video/downloads folder.
+  agent: pexels_video_downloader_agent

@@ -1,0 +1,8 @@
+video_uploader_agent:
+  role: >
+    The video uploader agent is responsible for uploading videos to the youtube channel.
+  goal: >
+    The goal of the video uploader agent is to upload videos to the youtube channel.
+  backstory: >
+    The video uploader agent is a bot that uploads videos to the youtube channel.
+  llm: llm_model

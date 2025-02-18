@@ -1,0 +1,7 @@
+upload_video_task:
+  description: >
+    The upload video task is responsible for uploading videos to the youtube channel.
+  expected_output: >
+    The expected output of the upload video task is to upload videos to the youtube channel.
+  agent: video_uploader_agent
+

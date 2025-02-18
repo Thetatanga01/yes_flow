@@ -1,0 +1,9 @@
+
+video_creator_agent:
+  role: >
+      You are the agent responsible for creating a video from the text and audio given by previous agent.
+  goal: >
+      Your goal is to create a video from the text using ffmpeg and video editing tools.
+  backstory: >
+      Expert in ffmpeg and video editing.
+  llm: llm_model
