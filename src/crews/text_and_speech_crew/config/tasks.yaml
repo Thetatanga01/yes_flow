@@ -1,6 +1,9 @@
 convert_text_to_speech_task:
   description: >
     Convert given text ({input_text}) to speech using the text-to-speech agent.
+    You will use the language parameter without converting it to the language code.
+    For example: if the language is Turkish then the language parameter should be "Turkish" not "tr".
+    For example: if the language is English then the language parameter should be "English" not "en".
     Do conversion in {language} language. 
     Use {save_path} as output path.
     Use {combined} parameter to whether combine the mp3 or not.
@@ -8,6 +11,7 @@ convert_text_to_speech_task:
     The output file should be saved at {save_path}.
     if {combined} parameter is true then the output files should be combined also in a file called combined.mp3.
   agent: text_to_speech_agent
+
 
 create_timeline_task:
   description: >
@@ -42,16 +46,3 @@ create_timeline_task:
     Return only output txt timeline files and audio_files list as part of the output dictionary.
   agent: speech_to_text_agent
 
-
-#create_video_task:
-#  description: >
-#    Make a video by given audio and text from the output of the previous agent.
-#    Use "resource/video" as image folder.
-#    for audios use audio_files list from the output of the previous agent.
-#    for image folder use "resource/video",
-#    for timelines use timelines list from the output of the previous agent.
-#    Use "output/{language}/video" as save_path.
-#    set combined parameter as true to combine all audio files in a single video.
-#  expected_output: >
-#    The output file should be saved at {save_path}.
-#  agent: video_creator_agent

@@ -48,7 +48,7 @@ class TextToSpeechTool(BaseTool):
 
             try:
 
-                print(f"{text} metni {voice_id} voice_id'si ile ses dosyasına dönüştürülüyor...")
+                print(f"{text} metni {language} dilindeki {voice_id} voice_id'si ile ses dosyasına dönüştürülüyor...")
                 # Ses oluşturma
                 audio_generator = client.text_to_speech.convert(
                     text=text,

@@ -67,12 +67,10 @@ class YesFlow(Flow[FlowState]):
             Verse(number=self.state.all_information.last_verse_number + 1,
                   text=self.state.all_information.sadakallahulazim))
 
-        intro = self.state.all_information.place_and_time_of_revelation + "\n\n" + \
-                self.state.all_information.tafsir_of_the_verses + "\n\n"
-
-        texts = [
-                    self.state.all_information.surah_name_and_verse_numbers,
-                    intro] + [verse.text for verse in self.state.all_information.verses]
+        texts = [self.state.all_information.surah_name_and_verse_numbers,
+                 self.state.all_information.place_and_time_of_revelation,
+                 self.state.all_information.tafsir_of_the_verses,
+                 ] + [verse.text for verse in self.state.all_information.verses]
 
         inputs = {
             "input_text": "|".join(texts),

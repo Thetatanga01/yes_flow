@@ -1,4 +1,6 @@
-from crewai import Agent, Crew, Process, Task
+import os
+
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task, llm
 from langchain_openai import ChatOpenAI
 
@@ -11,9 +13,20 @@ class TextToSpeechCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
 
-    @llm
-    def llm_model(self):
-        return ChatOpenAI(model="gpt-4o")
+    # call gemini model
+    gemini_llm = LLM(
+        api_key=os.getenv("GOOGLE_API_KEY"),
+        model="gemini/gemini-2.0-flash",
+        max_tokens=8000,
+        temperature=0.0
+    )
+
+    chatgpt_llm = LLM(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model="gpt-4o",
+        max_tokens=8000,
+        temperature=0.0
+    )
 
     @agent
     def text_to_speech_agent(self) -> Agent:
@@ -21,7 +34,8 @@ class TextToSpeechCrew:
             config=self.agents_config['text_to_speech_agent'],
             tools=[TextToSpeechTool()],
             verbose=True,
-            max_iter=3
+            max_iter=3,
+            llm=self.chatgpt_llm
         )
 
     @agent
@@ -30,7 +44,8 @@ class TextToSpeechCrew:
             config=self.agents_config['speech_to_text_agent'],
             tools=[SpeechToTextTool()],
             verbose=True,
-            max_iter=3
+            max_iter=3,
+            llm=self.chatgpt_llm
         )
 
     @task

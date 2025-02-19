@@ -1,16 +1,3 @@
-#find_official_source_task:
-#  description: >
-#    {language} dilinde Kuran meali okumak isteyen bir kişi için,
-#    en resmi olacak şekilde öngördüğün kaynağı, sadece ismini paylaşacak sekilde bul ve paylaş.
-#    Bulduğun resmi kaynağı [official_source] fieldına set ederek senden sonra gelen agentların
-#    bu bilgiden yararlanmasını sağla.
-#  expected_output: >
-#    The output must follow the pydantic schema strictly.
-#    There will be penalty if not followed.
-#    Bulduğun resmi kaynağı official_source fieldına set ederek senden sonra gelen agentların
-#    bu bilgiden yararlanmasını sağla.
-#  agent: official_source_finder_agent
-
 
 script_writing:
   description: >
@@ -38,9 +25,11 @@ script_writing:
     
     Alttaki temel kurallara sıkı sıkıya uyacaksın!
     - besmele field'ina müslümanlarca besmele olarak bilinen fatiha suresinin birinci ayetini, sana verilmiş olan {language} dilindeki karşılı neyse o olacak şekilde yazacaksın.
-      Örneğin dil Türkçe ise "Rahman ve Rahim olan Allah'ın adıyla", İngilizce ise "In the name of Allah, the Most Gracious, the Most Merciful" olacak.
+      Cümle tamamlandıktan sonra mutlaka nokta işaretini koyacaksın.
+      Örneğin dil Türkçe ise "Rahman ve Rahim olan Allah'ın adıyla.", İngilizce ise "In the name of Allah, the Most Gracious, the Most Merciful." olacak.
     
     - sadakallhulazim field'ına, müslümanların bir kuran ayeti okuduktan sonra söyledikleri arapça okunuşu Sadakallahulazim olan ve türkçesi "Yüce Allah doğru söyledi" şeklinde tercüme edilen cümlenin {language} dilindeki karşılığı neyse onu yazacaksın.
+      Cümle tamamlandıktan sonra mutlaka nokta işaretini koyacaksın.
       Örneğin {language} Türkçe ise "Yüce Allah doğru söyledi.", ingilizce ise "The Almighty Allah has spoken the truth.", almanca ise "Der Allmächtige Allah hat die Wahrheit gesprochen" olacak.
     
     - Surenin adı {language} dilde yaz.
@@ -52,17 +41,22 @@ script_writing:
     - surah_name_and_verse_numbers Sure ismi ve bahsi geçen ayet numaralarının ilk ve sonuncusu olacak şekilde {language} dilinde yaz.
       Örneğin dil Türkçe ise "Bakara Suresi - 1 ile 5. Ayetler", İngilizce ise "The Cow - Verses 1 to 5" olacak.
     
-    - Tefsir 1 cümle ve en fazla 20 kelime olacak şekilde {language} dilinde yaz.
+    - Tefsiri, 40 kelime olacak ve en fazla 2 cümleden oluşacak şekilde {language} dilinde yaz. 
+      Tefsiri yazarken az bilinen ancak önemli olduğunu düşündüğün bir bilgiyi de ekle.
     
     - Bu tefsiri özetleyen {language} dilinde 6 tane tag oluştur. Bu taglerin her biri en fazla 12 karakter olmalı ve tefsirde geçen önemli kelimeleri temsil etmeli.
       Birinci tag her zaman {language} dilinin kendi dilindeki adını içermeli.  
-      Örneğin tefsir Turkish dilinde ve "Allah'ın rahmeti her şeyi kuşatmıştır" cümlesi şeklinde ise tagler "#Türkçe,#Rahmet,#Kuşatma" gibi olmalı.
-      Örneğin {language} Turkish ise taglar "#Türkçe,#Allah,#Kuran,#İslam,#Müslüman,#Namaz" gibi olmalı.
-      Örneğin {language} English ise tagler "#English,#Allah,#Quran,#Islam,#Muslim,#Prayer" gibi olmalı.
-      Örneğin {language} Russian ise taglar "#Русский,#Аллах,#Коран,#Ислам,#Мусульманин,#Молитва" gibi olmalı.
-      Örneğin {language} Indonesian ise taglar "#Bahasa Indonesia,#Allah,#Al-Qur'an,#Islam,#Muslim,#Sholat" gibi olmalı.
+      Tüm taglar mutlaka küçük harfle yazılmalı ve taglar arasında boşluk olmalı. Ancak tek bir taga ait kelimelerde boşluk olmamalı.
+      Birden fazla kelimeden bir tag oluşuyorsa en fazla iki kelime kullanılmalı ve aralarında boşluk olmamalı.
+      Örneğin tefsir Türkçe dilinde ve "Allah'ın rahmeti her şeyi kuşatmıştır" cümlesi şeklinde ise tagler "#türkçe #rahmet #kuşatma" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) Turkish ise taglar "#türkçe #allah #kuran #islam #müslüman #namaz" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) English ise tagler "#english #allah #quran #islam #muslim #prayer" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) Russian ise taglar "#Русский #Аллах #Коран #Ислам #Мусульманин #Молитва" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) Indonesian ise taglar "#bahasaindonesia #Allah #Al-Qur'an #islam #muslim #sholat" gibi olmalı.
     
     - Kur'an’ın inmeye başladığı yıla göre hangi dönemde ve nerede indiğini {language} dilinde belirt. Açıklama eklemeden sadece tarih ve yer belirt.
+      Cümle tamamlandıktan sonra mutlaka nokta işaretini koyacaksın.
+      Örneğin {language} dili Turkish ise "Mekke'de hicri 1. yıl.", English ise "Mecca in the first year of Hijra." şeklinde olmalı.
     
     - Listedeki en son ayetin numarasını ilgili field'a değer olarak ver.
     
@@ -88,9 +82,6 @@ script_writing:
 
     Tefsir (1 Cümle):
     [Ayet(ler)in kısa bir anlam özeti.]
-
-    Neden İndirildiği (1 Cümle):
-    [Ayet(ler)in indiriliş sebebi.]
 
     Kur'an'ın İnme Yılına Göre Zamanı ve Yeri:
     [Ayet(ler)in indirildiği dönem ve yer.]

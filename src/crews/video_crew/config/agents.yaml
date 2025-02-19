@@ -6,4 +6,3 @@ video_creator_agent:
       Your goal is to create a video from the text using ffmpeg and video editing tools.
   backstory: >
       Expert in ffmpeg and video editing.
-  llm: llm_model

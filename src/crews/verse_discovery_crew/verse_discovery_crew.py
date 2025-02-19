@@ -1,14 +1,18 @@
+import os
 from typing import List
 
-from crewai import Agent, Crew, Process, Task
-from crewai.project import CrewBase, agent, crew, task, llm
-from langchain_openai import ChatOpenAI
+from crewai import Agent, Crew, Process, Task, LLM
+from crewai.project import CrewBase, agent, crew, task
+from dotenv import load_dotenv
 from pydantic import BaseModel
+
+load_dotenv()
 
 
 class Verse(BaseModel):
     number: int
     text: str
+
 
 class AllInformation(BaseModel):
     language: str
@@ -23,31 +27,33 @@ class AllInformation(BaseModel):
     verses: List[Verse]
     last_verse_number: int
 
+
 @CrewBase
 class StoryWritingCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
 
-    @llm
-    def llm_model(self):
-        return ChatOpenAI(temperature=0.0,  # Set to 0 for deterministic output
-                          model="gpt-4o",  # Using the GPT-4 Turbo model
-                          max_tokens=8000)
+    gemini_llm = LLM(
+        api_key=os.getenv("GOOGLE_API_KEY"),
+        model="gemini/gemini-2.0-flash",
+        max_tokens=8000,
+        temperature=0.0
+    )
 
-    # @agent
-    # def official_source_finder_agent(self) -> Agent:
-    #     return Agent(
-    #         config=self.agents_config['official_source_finder_agent'],
-    #         output_pydantic=AllInformation,
-    #         verbose=True
-    #     )
+    chatgpt_llm = LLM(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model="gpt-4o",
+        max_tokens=8000,
+        temperature=0.0
+    )
 
     @agent
     def script_writer_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['script_writer_agent'],
             output_pydantic=AllInformation,
-            verbose=True
+            verbose=True,
+            llm=self.gemini_llm
         )
 
     @agent
@@ -55,15 +61,9 @@ class StoryWritingCrew:
         return Agent(
             config=self.agents_config['script_reduction_agent'],
             output_pydantic=AllInformation,
-            verbose=True
+            verbose=True,
+            llm=self.gemini_llm
         )
-
-    # @task
-    # def find_official_source_task(self) -> Task:
-    #     return Task(
-    #         config=self.tasks_config['find_official_source_task'],
-    #         output_pydantic=AllInformation,
-    #     )
 
     @task
     def script_writing(self) -> Task:

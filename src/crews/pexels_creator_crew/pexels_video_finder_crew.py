@@ -1,13 +1,9 @@
-from typing import List
-
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task, llm
-from crewai_tools.tools.file_writer_tool.file_writer_tool import FileWriterTool
 from langchain_openai import ChatOpenAI
-from pydantic import Field, BaseModel
 
 from tools.downloader_tool import DownloaderTool
-#from tools.downloader_tool import DownloaderToolInput
+# from tools.downloader_tool import DownloaderToolInput
 from tools.pexels_video_finder_tool import PexelsVideoFinderTool, VideoSearchResponse
 
 

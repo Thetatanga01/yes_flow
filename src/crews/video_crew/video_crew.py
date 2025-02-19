@@ -1,7 +1,7 @@
-from crewai import Agent, Crew, Process, Task
+import os
+
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task, llm
-from crewai_tools.tools.file_read_tool.file_read_tool import FileReadTool
-from crewai_tools.tools.json_search_tool.json_search_tool import JSONSearchTool
 from langchain_openai import ChatOpenAI
 
 from tools.video_generator_tool import VideoGeneratorTool
@@ -12,9 +12,20 @@ class VideoGeneratorCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
 
-    @llm
-    def llm_model(self):
-        return ChatOpenAI(model="gpt-4o")
+    # call gemini model
+    gemini_llm = LLM(
+        api_key=os.getenv("GOOGLE_API_KEY"),
+        model="gemini/gemini-2.0-flash",
+        max_tokens=8000,
+        temperature=0.1
+    )
+
+    chatgpt_llm = LLM(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model="gpt-4o",
+        max_tokens=8000,
+        temperature=0.1
+    )
 
     @agent
     def video_creator_agent(self) -> Agent:
@@ -22,7 +33,8 @@ class VideoGeneratorCrew:
             config=self.agents_config['video_creator_agent'],
             tools=[VideoGeneratorTool()],
             verbose=True,
-            max_iter=3
+            max_iter=3,
+            llm=self.gemini_llm
         )
 
     @task
