@@ -4,6 +4,7 @@ lib/
 src/output
 src/resource/video/
 src/resource/horizontal/
+src/resource/horizontal-new/
 src/resource/youtube-client.json
 src/yedek
 src/yedek2

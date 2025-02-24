@@ -23,7 +23,7 @@ class TextToSpeechCrew:
 
     chatgpt_llm = LLM(
         api_key=os.getenv("OPENAI_API_KEY"),
-        model="gpt-4o",
+        model="gpt-4o-mini",
         max_tokens=8000,
         temperature=0.0
     )

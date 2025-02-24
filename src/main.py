@@ -1,14 +1,20 @@
 #!/usr/bin/env python
+import asyncio
+import json
 import os
 
-from crewai.flow.flow import Flow, start, listen
+from crewai.flow.flow import Flow, start, listen, or_
 from dotenv import load_dotenv
 from pydantic import BaseModel, ConfigDict
 
+from crews.everything_under_2_minutes_discovery_crew.everything_in_2_minutes_discovery_crew import Data, \
+    EverythingIn2MinutesStoryCrew, Sentence
+from crews.image_creator_crew.image_creator_crew import ImageCreatorCrew
 from crews.text_and_speech_crew.text_and_speech_crew import TextToSpeechCrew
 from crews.verse_discovery_crew.verse_discovery_crew import AllInformation, StoryWritingCrew, Verse
 from crews.video_crew.video_crew import VideoGeneratorCrew
 from src.util.VerseUtil import VerseUtil, VerseInfo
+from util.LanguageUtil import LanguageUtil
 
 load_dotenv()
 
@@ -18,7 +24,7 @@ DATE_FORMAT = "%Y%m%d_%H%M%S"
 DOWNLOAD_FOLDER_NAME = "output/images"
 
 
-class FlowState(BaseModel):
+class VerseFlowState(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     all_information: AllInformation = AllInformation(
@@ -37,8 +43,10 @@ class FlowState(BaseModel):
     current_verse: VerseInfo = VerseUtil().get_next_verse()
 
 
-class YesFlow(Flow[FlowState]):
 
+
+
+class YesFlow(Flow[VerseFlowState]):
     # flow
     @start()
     def start_story(self):
@@ -76,6 +84,7 @@ class YesFlow(Flow[FlowState]):
             "input_text": "|".join(texts),
             "save_path": f"output/{self.state.all_information.language}/sound",
             "language": self.state.all_information.language,
+            "voice_id": LanguageUtil().get_voice_id(self.state.all_information.language),
             "combined": "false"
         }
         TextToSpeechCrew().crew().kickoff(inputs=inputs)
@@ -88,6 +97,80 @@ class YesFlow(Flow[FlowState]):
             "timeline_files_folder_path": f"output/{language}/text",
             "video_folder": "resource/video",
             "save_path": f"output/{language}/video",
+            "width": "1080",
+            "height": "1920",
+            "combined": "true"
+        }
+        VideoGeneratorCrew().crew().kickoff(inputs=inputs)
+
+
+
+
+class EverythingIn2MinutesFlowState(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    data: Data = Data(
+        language="Unknown",
+        question="Unknown",
+        tags="N/A",
+        sentences=[]
+    )
+class EverythingIn2MinutesFlow(Flow[EverythingIn2MinutesFlowState]):
+    # flow
+    @start()
+    def start_story(self):
+        inputs = {
+            'language': os.getenv("CURRENT_LANGUAGE"),
+            'question': os.getenv("QUESTION")
+        }
+
+        result = EverythingIn2MinutesStoryCrew().crew().kickoff(inputs=inputs)
+        self.state.data = Data(**result.pydantic.model_dump())
+
+        #write response to a file in output folder, if output folder does not exist, create first
+        output_dir = f"output/{self.state.data.language}"
+        os.makedirs(output_dir, exist_ok=True)
+
+        with open(os.path.join(output_dir, "response.json"), "w") as f:
+            json.dump(result.pydantic.model_dump(), f)
+
+    @listen("start_story")
+    async def parallel_tasks(self):
+        await asyncio.gather(
+            self.text_to_speech(),
+            self.create_image()
+        )
+
+    async def text_to_speech(self):
+        texts = [sentence.text for sentence in self.state.data.sentences]
+        inputs = {
+            "input_text": "|".join(texts),
+            "save_path": f"output/{self.state.data.language}/sound",
+            "language": self.state.data.language,
+            "voice_id": os.getenv("CALLUM_VOICE_ID"),
+            "combined": "false"
+        }
+        await asyncio.to_thread(TextToSpeechCrew().crew().kickoff, inputs=inputs)
+
+    async def create_image(self):
+        inputs = {
+            "prompt_list": self.state.data.sentences,
+            "save_path": f"output/{self.state.data.language}/image",
+            "number_of_images": len(self.state.data.sentences),
+            "width": "1920",
+            "height": "1080"
+        }
+        await asyncio.to_thread(ImageCreatorCrew().crew().kickoff, inputs=inputs)
+
+    @listen("parallel_tasks")
+    def generate_video(self):
+        language = os.getenv("CURRENT_LANGUAGE")
+        inputs = {
+            "audio_files_folder_path": f"output/{language}/sound",
+            "timeline_files_folder_path": f"output/{language}/text",
+            "source_folder":  f"output/{language}/image",
+            "save_path": f"output/{language}/video",
+            "width": "1920",
+            "height": "1080",
             "combined": "true"
         }
         VideoGeneratorCrew().crew().kickoff(inputs=inputs)
@@ -100,8 +183,12 @@ class VideoGenerationFlow(Flow):
 
 
 def kickoff():
-    yes_flow = YesFlow()
-    yes_flow.kickoff()
+    if os.getenv("PROJECT") == "quran":
+        yes_flow = YesFlow()
+        yes_flow.kickoff()
+    else:
+        everything_in_2_minutes_flow = EverythingIn2MinutesFlow()
+        everything_in_2_minutes_flow.kickoff()
 
 
 def kickoff_only_video_generation():

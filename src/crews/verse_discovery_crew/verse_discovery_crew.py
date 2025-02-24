@@ -42,7 +42,7 @@ class StoryWritingCrew:
 
     chatgpt_llm = LLM(
         api_key=os.getenv("OPENAI_API_KEY"),
-        model="gpt-4o",
+        model="gpt-4o-mini",
         max_tokens=8000,
         temperature=0.0
     )
@@ -53,7 +53,7 @@ class StoryWritingCrew:
             config=self.agents_config['script_writer_agent'],
             output_pydantic=AllInformation,
             verbose=True,
-            llm=self.gemini_llm
+            llm=self.chatgpt_llm
         )
 
     @agent
@@ -62,7 +62,7 @@ class StoryWritingCrew:
             config=self.agents_config['script_reduction_agent'],
             output_pydantic=AllInformation,
             verbose=True,
-            llm=self.gemini_llm
+            llm=self.chatgpt_llm
         )
 
     @task

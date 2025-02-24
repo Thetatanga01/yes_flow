@@ -4,7 +4,7 @@ create_video_task:
     Make a video with the given parameters below.
     Use {audio_files_folder_path} as audio files folder path
     Use {timeline_files_folder_path} as timeline files folder path
-    Use {video_folder} as video folder
+    Use {source_folder} as video or image folder
     Save the output file at {save_path}
     Use {combined} as combined value
   expected_output: >

@@ -15,7 +15,7 @@ class YoutubeUploadCrew:
 
     @llm
     def llm_model(self):
-        return ChatOpenAI(model="gpt-4o")
+        return ChatOpenAI(model="gpt-4o-mini")
 
     @agent
     def video_uploader_agent(self) -> Agent:

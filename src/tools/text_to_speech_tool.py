@@ -12,7 +12,8 @@ from util.LanguageUtil import LanguageUtil
 class TextToSpeechToolInput(BaseModel):
     input_text: str = Field(..., description="Texts to convert to speech")
     save_path: str = Field(..., description="Path to save the audio files")
-    language: str = Field(..., description="Language ")
+    language: str = Field(..., description="Language")
+    voice_id: str = Field("", description="Voice ID")
     combined: str = Field(default="false", description="Whether to combine audio files")
 
 
@@ -21,10 +22,10 @@ class TextToSpeechTool(BaseTool):
     description: str = "Converts text to speech using the ElevenLabs API."
     args_schema = TextToSpeechToolInput
 
-    def _run(self, input_text: str, save_path: str, language: str, combined: str = "false") -> dict:
+    def _run(self, input_text: str, save_path: str, language: str, voice_id: str, combined: str = "false") -> dict:
         # save_path'deki fazladan tırnakları kaldır
         save_path = save_path.strip('"')
-        voice_id = LanguageUtil().get_voice_id(language)
+        print(voice_id)
 
         # Ses dosyalarını temizle ve klasör oluştur
         shutil.rmtree(save_path, ignore_errors=True)
@@ -52,7 +53,7 @@ class TextToSpeechTool(BaseTool):
                 # Ses oluşturma
                 audio_generator = client.text_to_speech.convert(
                     text=text,
-                    voice_id=LanguageUtil().get_voice_id(language),
+                    voice_id=voice_id,
                     model_id="eleven_multilingual_v2",
                     output_format="mp3_44100_128",
                     voice_settings={

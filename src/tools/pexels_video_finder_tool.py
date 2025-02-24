@@ -9,12 +9,6 @@ from pydantic import Field, BaseModel
 load_dotenv()
 
 
-class VideoFile(BaseModel):
-    width: int = Field(..., description="The width of the video file.")
-    height: int = Field(..., description="The height of the video file.")
-    link: str = Field(..., description="The download link for the video file.")
-
-
 class Video(BaseModel):
     id: str = Field(..., description="The unique identifier of the video.")
     url: str = Field(..., description="The URL of the video on Pexels.")

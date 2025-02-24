@@ -46,13 +46,14 @@ script_writing:
     
     - Bu tefsiri özetleyen {language} dilinde 6 tane tag oluştur. Bu taglerin her biri en fazla 12 karakter olmalı ve tefsirde geçen önemli kelimeleri temsil etmeli.
       Birinci tag her zaman {language} dilinin kendi dilindeki adını içermeli.  
+      İkinci tag her zaman {language} dilinin kendi dilindeki şekliyle #kuran olmalı.  
       Tüm taglar mutlaka küçük harfle yazılmalı ve taglar arasında boşluk olmalı. Ancak tek bir taga ait kelimelerde boşluk olmamalı.
       Birden fazla kelimeden bir tag oluşuyorsa en fazla iki kelime kullanılmalı ve aralarında boşluk olmamalı.
       Örneğin tefsir Türkçe dilinde ve "Allah'ın rahmeti her şeyi kuşatmıştır" cümlesi şeklinde ise tagler "#türkçe #rahmet #kuşatma" gibi olmalı.
-      Örneğin verilen language fieldindaki dil ({language}) Turkish ise taglar "#türkçe #allah #kuran #islam #müslüman #namaz" gibi olmalı.
-      Örneğin verilen language fieldindaki dil ({language}) English ise tagler "#english #allah #quran #islam #muslim #prayer" gibi olmalı.
-      Örneğin verilen language fieldindaki dil ({language}) Russian ise taglar "#Русский #Аллах #Коран #Ислам #Мусульманин #Молитва" gibi olmalı.
-      Örneğin verilen language fieldindaki dil ({language}) Indonesian ise taglar "#bahasaindonesia #Allah #Al-Qur'an #islam #muslim #sholat" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) Turkish ise taglar "#türkçe #kuran #islam #müslüman #namaz" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) English ise tagler "#english #quran #islam #muslim #prayer" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) Russian ise taglar "#Русский #Коран #Ислам #Мусульманин #Молитва" gibi olmalı.
+      Örneğin verilen language fieldindaki dil ({language}) Indonesian ise taglar "#bahasaindonesia #Al-Qur'an #islam #muslim #sholat" gibi olmalı.
     
     - Kur'an’ın inmeye başladığı yıla göre hangi dönemde ve nerede indiğini {language} dilinde belirt. Açıklama eklemeden sadece tarih ve yer belirt.
       Cümle tamamlandıktan sonra mutlaka nokta işaretini koyacaksın.

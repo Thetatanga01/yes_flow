@@ -1,8 +1,7 @@
 import os
 
 from crewai import Agent, Crew, Process, Task, LLM
-from crewai.project import CrewBase, agent, crew, task, llm
-from langchain_openai import ChatOpenAI
+from crewai.project import CrewBase, agent, crew, task
 
 from tools.video_generator_tool import VideoGeneratorTool
 
@@ -22,7 +21,7 @@ class VideoGeneratorCrew:
 
     chatgpt_llm = LLM(
         api_key=os.getenv("OPENAI_API_KEY"),
-        model="gpt-4o",
+        model="gpt-4o-mini",
         max_tokens=8000,
         temperature=0.1
     )

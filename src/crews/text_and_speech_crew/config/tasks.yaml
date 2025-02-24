@@ -5,6 +5,7 @@ convert_text_to_speech_task:
     For example: if the language is Turkish then the language parameter should be "Turkish" not "tr".
     For example: if the language is English then the language parameter should be "English" not "en".
     Do conversion in {language} language. 
+    Use {voice_id} as the voice id.
     Use {save_path} as output path.
     Use {combined} parameter to whether combine the mp3 or not.
   expected_output: >

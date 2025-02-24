@@ -14,7 +14,7 @@ class PexelsVideoFinderCrew:
 
     @llm
     def llm_model(self):
-        return ChatOpenAI(model="gpt-4o")
+        return ChatOpenAI(model="gpt-4o-mini")
 
     @agent
     def pexels_video_finder_agent(self) -> Agent:

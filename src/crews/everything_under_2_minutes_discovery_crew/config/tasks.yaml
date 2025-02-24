@@ -1,0 +1,61 @@
+
+writing_task:
+  description: >
+    {question} sorusuna ortalama 5 dakikalık videoda anlatılacak şekilde yanıt içeren metin oluşturacaksın.
+    Yanıt metnin {language} dilinde olmalı.
+      Yanıtta giriş, gelişme ve sonuç şeklinde bir bütünlük olmalı. 
+      
+      Örneğin verilen dil ({language}) Türkçe ise, dönüş yapacağın bilgiler de Türkçe olmalı.
+      Örneğin verilen dil ({language}) İngilizce ise, dönüş yapacağın bilgiler de İngilizce olmalı.
+    
+    Verdiğin cevabı cümleler halinde sentences listesine ekleyeceksin. sentences listesinin 3 adet fieldı var, number, image_prompt ve text.
+    Verdiğin yanıt toplamda 20 sentence itemından oluşacak ve içinde mutlaka en az 5 tane az bilinen fakat okuyucunun çokça ilgisini çekeceği bilgi veya anektod olacak.
+    Örneğin: Michael Jackson ile ilgili bir soru sorulduğunda az bilinen ama ilgi çekici olan 5 tane anektod paylaşacaksın. 
+    Konseptin daha kolay anlaşılması için bir analoji yapman gerekiyorsa bir cümlede bunu yapabilirsin. 
+    Örneğin foton nedir diye bir soru sorulursa "Fotonlar, evrenin temel yapı taşlarıdır ve bir bakıma evrenin tuğlaları gibidir." şeklinde bir cümle kullanabilirsin.
+    Önemli olan sıradan insanların ne anlattığını kolayca anlamaları.
+    Vereceğin bu bilgiler ya da anektodlar, mutlaka verilen sorunun cevabı ile ilgili olacak.
+      Örneğin verilen soru "Türkiye'nin en büyük gölü hangisidir?" ise, verdiğin bilgiler de van gölü ile ilgili olmalı.     
+      number fieldı cümlenin sırasını belirtirken, text fieldı cümleyi belirtecek.
+      Birinci sentence her zaman aşağıdaki formatta olacak:
+      Örneğin: question fieldı "Türkiye'nin en büyük gölü" diye verildiyse,
+      birinci sentence "Bana saniyeler içinde, Türkiye'nin en büyük gölünü anlat!" şeklinde olmalı.
+      Tabi bu şablon verilen dile göre değişmeli.
+      Örneğin: verilen dil ingilizce ise "Tell Me About The Largest Lake in Turkey In Seconds" olmalı.
+      Örneğin: verilen dil ingilizce ve sorulan soru "what is evolution" ise birinci sentence "Tell Me About The Evolution In Seconds" olmalı.
+    
+      image_prompt fieldı, cümleye ait oluşturulacak görsel ile ilgili açıklayıcı bir prompt içerecek.
+      Oluşturulacak görsel akademik tarih kitaplarında kullanılacak bir görsel olacak. Ultrarealistik ve yüksek çözünürlükte olmalı.
+      Oluşturacağın prompt şu şekilde basit bir prompt olmamalı: "A portrait of Genghis Khan in traditional Mongolian attire."
+      Olması gereken örnek prompt: 
+        An ultra-realistic, high-resolution portrait of Genghis Khan, depicted in exquisite detail, wearing traditional Mongolian attire. 
+        His face exudes strength, wisdom, and leadership, with piercing eyes and a commanding presence. 
+        The intricate embroidery and textures of his clothing reflect the richness of Mongolian culture. 
+        The background features a subtle, historically accurate Mongolian landscape, evoking the vastness of the empire he built. 
+        The lighting is dramatic, emphasizing the depth and realism of his facial features, making this a visually compelling and historically informative illustration suitable for an academic history book.
+    
+      Ayrıca image_prompt için üreteceğin promptlar Dall-E modeli kullanılarak görsel üretecek bu yüzden üreteceğin prompt'un dall-e güvenlik sistemi açısından bir engel oluşturmaması gerekli.
+      Üreteceğin promptların hiçbir şekilde şiddet, cinsellik, ırkçılık, nefret söylemi ve benzeri şeyler içermemeli. 
+      Sadece bilgilendirici ve eğitici olmalı.
+      Yukarıda belirttiğim image_prompt ile ilgili açıklayıcı kurallar çok önemli, asla şiddet, cinsellik, ırkçılık, nefret söylemi ve benzeri bir prompt oluşturmayacaksın.
+      Oluşturacağın promptlar sadece ama sadece eğiticilik ve bilgilendiricilik amacı taşıyacak, akademik tarih kitaplarında kullanılabilecek görsellerin oluşturulmasına yardımcı olacak.
+      Örneğin Adolf Hitler gibi bir figür ile ilgili bir görsel üretmek istediğimizde bile "20. yüzyıl Almanya'sının şehir hayatını gösteren bir imaj" şeklinde bir prompt oluşturacaksın ancak hiçbir şekilde uygunsuz bir dil kullanmayacaksın.      
+    
+      image_prompt fieldına ait promptu oluştururken, cümledeki en önemli kelimeleri ve ana konsepti dikkate alarak oluştur. 
+      Aynı zamanda sorulan soru ile ilgili verilen cevabın genel temasıyla da paralellik sağla.
+      image_prompt için oluşturduğun promptlar dall-e'de yaratılacak görseller için kullanılacak. Bu görsellerin ultrarealistic olması gerekli. 
+      Görsellerin gerçekçiliği, kullanıcıların konuyu daha iyi anlamasına yardımcı olacak o yüzden promptlarını açıklayıcı bir şekilde oluştur.
+      
+    
+    Bu cümleler çok daha uzun olabilir, önemli olan 5 dakikalık süre içerisinde sorulan soruya cevap verebilecek şekilde olması.
+    sentences listesindeki cümlelerin toplam uzunluğu ortalama 5 dakikalık bir videoda anlatılabilecek kadar olmalı.
+    
+    
+    tags fieldı için 5 tane tag belirleyeceksin. Bu tagler verilen soru ile ilgili olmalı.
+    taglar {language} dilinde olmalı.
+      Örneğin: verilen question "Türkiye'nin en büyük gölü?" ise, tagler #Van Gölü, #Türkiye, #Göl, #Doğa, #Tatil olabilir.
+      Örneğin: verilen question "largest lake in Turkey?" ise, tagler #Van Lake, #Turkey, #Lake, #Nature, #Holiday olabilir.    
+
+  expected_output: >
+    The output must follow the pydantic schema strictly. There will be penalty if not followed.
+  agent: writer_agent

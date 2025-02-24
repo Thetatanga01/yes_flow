@@ -1,38 +1,13 @@
-#generate_prompt:
-#  description: >
-#    Generate a prompt by the given themes "{theme}" to create
-#    descriptive prompt suitable for generating creative images.
-#    The prompt can be used by a text to image model especially dalle-3.
-#    The prompt must be about nature, landscape, gentle animals, heaven and peaceful scenes.
-#    Create very simple images that can be used as a background for text.
-#
-#  expected_output: >
-#    A descriptive prompt string that captures the essence of the verses, their contexts, and the themes "{theme}"
-#    while emphasizing creative and surreal visual elements.
-#  agent: prompt_generator_agent
 
-
-illustration:
+create_image_task:
   description: >
-        Generate an image using the prompt: '{prompt}'
+    The images should be generated using the DALL-E model.
+    resolutions of the images should be {width}x{height}.
+    You should generate {number_of_images} images.
+    {save_path} is the folder where you should save the images.
+    You will use {prompt_list} prompts to generate the images.
+
   expected_output: >
     The output must follow the pydantic schema strictly. There will be penalty if not followed.
   agent: visual_artist_agent
 
-
-#convert_image_data_to_json:
-#  description: >
-#    Use the returned images urls from the image generator agent and convert them into a JSON format.
-#    The JSON format should be an array of image urls.
-#    I would like you to return your response in the json format and it must consist only the array of images.
-#    JSON output structure should be like following sample:
-#    "images": [
-#      "https://link-to-image-1.jpg",
-#      "https://link-to-image-2.jpg"
-#    ]
-#    Every array item represents the link url to the image.
-#    No other information is needed. Do not add any text to the response.
-#  expected_output: >
-#    A JSON array of image URLs.
-#    No other information is needed. Do not add any text to the response.
-#  agent: json_converter_agent
