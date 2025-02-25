@@ -6,13 +6,9 @@ from elevenlabs import ElevenLabs
 from pydantic import Field, BaseModel
 from pydub import AudioSegment
 
-from util.LanguageUtil import LanguageUtil
-
-
 class TextToSpeechToolInput(BaseModel):
     input_text: str = Field(..., description="Texts to convert to speech")
     save_path: str = Field(..., description="Path to save the audio files")
-    language: str = Field(..., description="Language")
     voice_id: str = Field("", description="Voice ID")
     combined: str = Field(default="false", description="Whether to combine audio files")
 
@@ -22,7 +18,7 @@ class TextToSpeechTool(BaseTool):
     description: str = "Converts text to speech using the ElevenLabs API."
     args_schema = TextToSpeechToolInput
 
-    def _run(self, input_text: str, save_path: str, language: str, voice_id: str, combined: str = "false") -> dict:
+    def _run(self, input_text: str, save_path: str, voice_id: str, combined: str = "false") -> dict:
         # save_path'deki fazladan tırnakları kaldır
         save_path = save_path.strip('"')
         print(voice_id)
@@ -49,7 +45,7 @@ class TextToSpeechTool(BaseTool):
 
             try:
 
-                print(f"{text} metni {language} dilindeki {voice_id} voice_id'si ile ses dosyasına dönüştürülüyor...")
+                print(f"{text} metni {voice_id} voice_id'si ile ses dosyasına dönüştürülüyor...")
                 # Ses oluşturma
                 audio_generator = client.text_to_speech.convert(
                     text=text,
@@ -58,7 +54,7 @@ class TextToSpeechTool(BaseTool):
                     output_format="mp3_44100_128",
                     voice_settings={
                         "stability": 0.9,
-                        "similarity_boost": 0.9,
+                        "similarity_boost": 0.8,
                         "style": 0.2,
                         "use_speaker_boost": False
                     },

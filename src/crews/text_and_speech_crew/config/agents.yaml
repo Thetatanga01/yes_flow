@@ -6,14 +6,3 @@ text_to_speech_agent:
   backstory: >
     Expert in converting text to speech.
 
-speech_to_text_agent:
-  role: >
-    You are the agent responsible for converting speech to text.
-  goal: >
-    Your goal is to process an audio file, transcribe it using OpenAI's Whisper model, 
-    and generate a timeline of transcriptions with timestamps. 
-    Generated text language should be the same with the audio content. 
-    If the audio is in English, the generated text should be in English.
-    If the audio is in Turkish, the generated text should be in Turkish.
-  backstory: >
-    Expert in converting speech to text by processing audio files.

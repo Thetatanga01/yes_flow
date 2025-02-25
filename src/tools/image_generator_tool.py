@@ -8,15 +8,12 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
+from util.DimensionUtil import DimensionType, Provider
+
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-
-class ImageFile(BaseModel):
-    width: int = Field(..., description="The width of the image file.")
-    height: int = Field(..., description="The height of the image file.")
-    link: str = Field(..., description="The download link for the image file.")
+model = os.getenv("IMAGE_GENERATOR")
 
 
 class Image(BaseModel):
@@ -32,11 +29,6 @@ class ImageGeneratorToolInput(BaseModel):
     prompt_list: list = Field(..., description="Prompts for the image generation")
     save_path: str = Field(..., description="save path of the image")
     number_of_images: int = Field(..., description="Number of images to generate")
-    width: str = Field(..., description="Width of the output image")
-    height: str = Field(..., description="Height of the output image")
-
-
-DALL_E_3 = "dall-e-3"
 
 
 class ImageGeneratorTool(BaseTool):
@@ -53,31 +45,30 @@ class ImageGeneratorTool(BaseTool):
             for chunk in response.iter_content(chunk_size=128):
                 file.write(chunk)
 
-    def _run(self, prompt_list: list, save_path: str, number_of_images, width: str, height: str) -> ImageSearchResponse:
+    def _run(self, prompt_list: list, save_path: str, number_of_images) -> ImageSearchResponse:
         print(prompt_list)
         print(save_path)
-        print(width)
-        print(height)
+
         images: list[Image] = []
 
         shutil.rmtree(save_path, ignore_errors=True)
         os.makedirs(save_path, exist_ok=True)
 
+        (width, height) = DimensionType.get_default().get(Provider.IMAGE)
         for i, prompt in enumerate(prompt_list):
             prompt = prompt.strip()
             try:
                 full_prompt = prompt + ". Ultrarealistic and high resolution."
                 print(f"{full_prompt} prompt'i ile resim oluşturuluyor...")
                 response = client.images.generate(
-                    model=DALL_E_3,
+                    model=model,
                     prompt=full_prompt,
-                    size=f"1792x1024",
+                    size=f"{width}x{height}",
                     quality="standard",
                     n=1)
                 image = Image(order_no=i, download_link=response.data[0].url)
                 images.append(image)
                 self.download(save_path=save_path, image=image)
-
 
             except Exception as e:
                 print(f"Resim oluşturulurken hata: {e}")

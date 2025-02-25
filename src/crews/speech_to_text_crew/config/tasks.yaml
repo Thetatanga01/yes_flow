@@ -1,0 +1,32 @@
+create_timeline_task:
+  description: >
+    Do the convertion from audio to text timeline by {audio_files_folder_path} folder path.
+    language_code field will be set to (ISO 639-1) of {language_code} language.
+    For instance: if language is Turkish then language_code should be "tr".
+    If language is English then language_code should be "en". 
+    If language is Arabic then language_code should be "ar". 
+
+    Konuşulan dil ile text'e çevirilen diller birbirinden farklı olamaz. 
+    Whisper ai speech to text yaparken language olarak bu dilin kısaltılmışını kullansın, örneğin dil İngilizce ise en olsun, Türkçe ise tr olsun gibi.
+    You will use {audio_files_folder_path} folder path to get audio files.
+    You will export timeline to {save_path} folder path.
+    Create a timeline of transcriptions with timestamps from the given audio file.
+    Processes the provided audio files (temp_audio_files) to extract its spoken content as text along with time segments (start, end, and text).
+    Iterate over the segments in the transcription result to construct a timeline. 
+    Each entry in the timeline includes:
+      Start time of the segment.
+      End time of the segment.
+      The transcribed text of the segment.
+  expected_output: >
+    Returns a dictionary containing:
+    "status": "success" to indicate successful execution.
+    "timeline": A list of tuples with the transcription data (start time, end time, and text).
+    Example:
+    For an input audio file, the method might generate an output file like this:
+
+    0.00 - 5.12: Hello, this is the transcription of the audio file.
+    5.13 - 10.34: The Whisper model processes the audio effectively.
+    
+    Return only output txt timeline files and audio_files list as part of the output dictionary.
+  agent: speech_to_text_agent
+

@@ -12,6 +12,8 @@ from crewai.tools import BaseTool
 from dotenv import load_dotenv
 from pydantic import Field, BaseModel
 
+from util.DimensionUtil import Provider, DimensionType
+
 load_dotenv()
 
 
@@ -20,8 +22,6 @@ class VideoGeneratorToolInput(BaseModel):
     timeline_files_folder_path: str = Field(..., description="Text files containing timeline data")
     source_folder: str = Field(..., description="Videos or pictures using as background")
     save_path: str = Field(..., description="Path to save the video")
-    width: str = Field(..., description="Width of the output video")
-    height: str = Field(..., description="Height of the output video")
     combined: str = Field("true", description="Combine all videos in the save_path")
 
 
@@ -35,14 +35,13 @@ class VideoGeneratorTool(BaseTool):
              timeline_files_folder_path: str,
              source_folder: str,
              save_path: str,
-             width: str,
-             height: str,
              combined: str = "true") -> dict:
 
         print("audio_files_folder_path", audio_files_folder_path)
         print("timeline_files_folder_path", timeline_files_folder_path)
         print("source_folder", source_folder)
         print("save_path", save_path)
+        print("current dimension", DimensionType.get_default().get(Provider.VIDEO))
         print("combined", combined)
 
         shutil.rmtree(save_path, ignore_errors=True)
@@ -69,15 +68,14 @@ class VideoGeneratorTool(BaseTool):
             return self.generate_video_from_videos(audio_files, timelines,
                                                    source_folder,
                                                    save_path,
-                                                   width,
-                                                   height, combined)
+                                                   combined)
         else:
             return self.generate_video_from_images(audio_files, timelines,
                                                    source_folder,
-                                                   save_path, width, height, combined)
+                                                   save_path, combined)
 
     def generate_video_from_images(self, audio_files: list[str], timelines: list[str],
-                                   source_folder: str, save_path: str, width: str, height: str,
+                                   source_folder: str, save_path: str,
                                    combined: str) -> dict:
 
         # find the pictures in source_folder by sorted order like 0.png 1.png 2.png .... 10.png 11.png
@@ -111,9 +109,7 @@ class VideoGeneratorTool(BaseTool):
                     audio_path=audio_path,
                     output_path=output_path,
                     duration=audio_duration,
-                    timeline=timeline_data,
-                    width=width,
-                    height=height
+                    timeline=timeline_data
                 )
 
                 # FFmpeg komutunu çalıştır ve çıktıyı yakala
@@ -176,7 +172,7 @@ class VideoGeneratorTool(BaseTool):
     # below methods belong to the video making from videos
     def generate_video_from_videos(self, audio_files: list[str], timelines: list[str],
                                    source_folder: str,
-                                   save_path: str, width: str, height: str, combined: str) -> dict:
+                                   save_path: str, combined: str) -> dict:
 
         video_files = glob.glob(os.path.join(source_folder, "*.mp4"))
         if not video_files:
@@ -200,9 +196,7 @@ class VideoGeneratorTool(BaseTool):
                     audio_path=audio_path,
                     output_path=output_path,
                     duration=audio_duration,
-                    timeline=timeline_data,
-                    width=width,
-                    height=height
+                    timeline=timeline_data
                 )
 
                 # FFmpeg komutunu çalıştır ve çıktıyı yakala
@@ -339,11 +333,10 @@ class VideoGeneratorTool(BaseTool):
             return 35
 
     def ffmpeg_for_using_videos(self, background_video: str, audio_path: str,
-                                output_path: str, duration: float, timeline: List[Dict], width: str, height: str) -> \
-            List[
-                str]:
+                                output_path: str, duration: float, timeline: List[Dict]) -> List[str]:
+
+        (width, height) = DimensionType.get_default().get(Provider.VIDEO)
         """FFmpeg komutunu hazırlar"""
-        # Temel komut
         command = [
             'ffmpeg',
             '-stream_loop', '-1',  # Video döngüsü
@@ -388,11 +381,12 @@ class VideoGeneratorTool(BaseTool):
 
     #for images
     def ffmpeg_for_using_pictures(self, background_picture: str, audio_path: str,
-                                  output_path: str, duration: float, timeline: List[Dict], width: str, height: str) -> \
+                                  output_path: str, duration: float, timeline: List[Dict]) -> \
             List[str]:
-        """PNG dosyalarından video oluşturmak için FFmpeg komutunu hazırlar"""
 
-        # Temel komut
+        (width, height) = DimensionType.get_default().get(Provider.VIDEO)
+
+        """PNG dosyalarından video oluşturmak için FFmpeg komutunu hazırlar"""
         command = [
             'ffmpeg',
             '-loop', '1',  # PNG dosyasını sabit bir görüntü olarak loop yap

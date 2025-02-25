@@ -1,38 +1,56 @@
-
 writing_task:
   description: >
     {question} sorusuna ortalama 5 dakikalık videoda anlatılacak şekilde yanıt içeren metin oluşturacaksın.
+    Sorunun yanıtını {analogy} ile analojilendirerek cevap vereceksin. 
+    Çocukların da anlayabileceği basit bir dil kullanarak, karmaşık konuları basitleştirecek şekilde cevap vereceksin.
+    Örneğin: Enerji nedir diye sorulduğunda enerjiyi ve enerji ile alakalı her terimi elma ile açıklayarak cevap vereceksin.
+    
+    Verdiğin cevabı cümleler halinde sentences listesine ekleyeceksin. sentences listesinin 3 adet fieldı var, number, image_prompt ve text.
+        Verdiğin yanıt toplamda 20 sentence itemından oluşacak ve içinde mutlaka en az 5 tane az bilinen fakat okuyucunun çokça ilgisini çekeceği bilgi veya anektod olacak.     
+        number fieldı cümlenin sırasını belirtirken, text fieldı cümleyi belirtecek.
+        Birinci sentence her zaman aşağıdaki formatta olacak:
+          Örneğin: question fieldı "Türkiye'nin en büyük gölü" diye verildiyse,
+          birinci sentence "Türkiye'nin en büyük gölü bir elma gibi olsaydı" şeklinde olmalı. buradaki elma, analogy fildında gelen değer neyse o ({analogy}).
+        Tabi bu şablon verilen dile göre değişmeli.
+          Örneğin: verilen dil ingilizce ise "If largest lake in Turkey were an apple?" olmalı.
+          Örneğin: verilen dil ingilizce ve sorulan soru "what is evolution" ise birinci sentence "What If energy were an apple?" olmalı.
+  
+    Cümleler arasında mantıklı bir bağlantı olmalı ve akıcı bir anlatım olmalı.
+    Birinci cümle ile konsept açıklamasına başlarken, son cümle ile de konseptin açıklamasını bitirdiğin bir akış çizmelisin.
+    
+    Her text fieldı ikişer cümleden oluşacak. 
+    text fieldının birinci cümlesi soru ile ilgili normal yanıtı verirken, ikinci cümle ise bunu bir analoji ile herkesin anlayacağı şekilde açıklayacak.
+    Örnek:
+        Martin Luther King Jr kimdir? diye sorulduğunu varsayalım ve {analogy} olarak "bir elma" seçildiğini varsayalım.
+        Cevap şu şekilde olabilir:
+        Martin Luther King Jr., ırksal eşitlik için mücadele eden bir sivil haklar lideriydi. Tıpkı farklı renklerde olsalar da aynı tatlılığa sahip elmalar gibi, insanların da ten rengi ne olursa olsun eşit haklara sahip olması gerektiğini savundu.
+        Şiddet yerine barışçıl protestoları savundu ve insanlara sevgiyle yaklaşmanın gücüne inandı. Bir elmayı nazikçe sarsarak dalından düşmesini beklersen nasıl zarar görmezse, King de değişimin sert darbelerle değil, sabır ve anlayışla gerçekleşmesi gerektiğini söyledi.
+        En ünlü konuşması "I Have a Dream" ile milyonlara ilham verdi. Bir elma tohumu nasıl zamanla büyüyüp koca bir ağaca dönüşüyorsa, onun hayali de yıllar içinde büyüyerek dünyada özgürlük ve eşitlik için güçlü bir etki yarattı.
+        Haksızlık karşısında sessiz kalmayı reddederek cesurca adalet için savaştı. Çürümüş bir elmayı görmezden gelirsek, tüm sepetin bozulmasına neden olabileceği gibi, o da ırkçılığı görmezden gelmenin toplumu mahvedeceğini düşündü.
+        Onun mücadelesi ölümünden sonra bile etkisini sürdürdü ve birçok insan hakları yasasının çıkmasına öncülük etti. Bir elma yere düştüğünde kaybolmaz, yeni bir ağaç yetiştirerek geleceğe miras bırakır; King de fikirleriyle dünyaya kalıcı bir değişim armağan etti.
+      
+    Bu şekilde bir cümle asla kurmayacaksın: Teachers often use apples to help students visualize and understand the abstract concept of energy.
+    Paylaştığın bilgiler mutlaka hem konu ile ilgili çok çekici hem de konu hakkında bilgilendirici ve eğitici olmalı. 
+    Oluşturduğun cümleler ile yanıtını hazırladığında, sorunun tam olarak yanıtının verilmiş ve soruyu soranın konu hakkında yeterince bilgilenmiş olduğundan emin olman gerekli.
+      
     Yanıt metnin {language} dilinde olmalı.
       Yanıtta giriş, gelişme ve sonuç şeklinde bir bütünlük olmalı. 
-      
       Örneğin verilen dil ({language}) Türkçe ise, dönüş yapacağın bilgiler de Türkçe olmalı.
       Örneğin verilen dil ({language}) İngilizce ise, dönüş yapacağın bilgiler de İngilizce olmalı.
     
-    Verdiğin cevabı cümleler halinde sentences listesine ekleyeceksin. sentences listesinin 3 adet fieldı var, number, image_prompt ve text.
-    Verdiğin yanıt toplamda 20 sentence itemından oluşacak ve içinde mutlaka en az 5 tane az bilinen fakat okuyucunun çokça ilgisini çekeceği bilgi veya anektod olacak.
-    Örneğin: Michael Jackson ile ilgili bir soru sorulduğunda az bilinen ama ilgi çekici olan 5 tane anektod paylaşacaksın. 
-    Konseptin daha kolay anlaşılması için bir analoji yapman gerekiyorsa bir cümlede bunu yapabilirsin. 
-    Örneğin foton nedir diye bir soru sorulursa "Fotonlar, evrenin temel yapı taşlarıdır ve bir bakıma evrenin tuğlaları gibidir." şeklinde bir cümle kullanabilirsin.
-    Önemli olan sıradan insanların ne anlattığını kolayca anlamaları.
-    Vereceğin bu bilgiler ya da anektodlar, mutlaka verilen sorunun cevabı ile ilgili olacak.
-      Örneğin verilen soru "Türkiye'nin en büyük gölü hangisidir?" ise, verdiğin bilgiler de van gölü ile ilgili olmalı.     
-      number fieldı cümlenin sırasını belirtirken, text fieldı cümleyi belirtecek.
-      Birinci sentence her zaman aşağıdaki formatta olacak:
-      Örneğin: question fieldı "Türkiye'nin en büyük gölü" diye verildiyse,
-      birinci sentence "Bana saniyeler içinde, Türkiye'nin en büyük gölünü anlat!" şeklinde olmalı.
-      Tabi bu şablon verilen dile göre değişmeli.
-      Örneğin: verilen dil ingilizce ise "Tell Me About The Largest Lake in Turkey In Seconds" olmalı.
-      Örneğin: verilen dil ingilizce ve sorulan soru "what is evolution" ise birinci sentence "Tell Me About The Evolution In Seconds" olmalı.
-    
-      image_prompt fieldı, cümleye ait oluşturulacak görsel ile ilgili açıklayıcı bir prompt içerecek.
-      Oluşturulacak görsel akademik tarih kitaplarında kullanılacak bir görsel olacak. Ultrarealistik ve yüksek çözünürlükte olmalı.
-      Oluşturacağın prompt şu şekilde basit bir prompt olmamalı: "A portrait of Genghis Khan in traditional Mongolian attire."
-      Olması gereken örnek prompt: 
-        An ultra-realistic, high-resolution portrait of Genghis Khan, depicted in exquisite detail, wearing traditional Mongolian attire. 
-        His face exudes strength, wisdom, and leadership, with piercing eyes and a commanding presence. 
-        The intricate embroidery and textures of his clothing reflect the richness of Mongolian culture. 
-        The background features a subtle, historically accurate Mongolian landscape, evoking the vastness of the empire he built. 
-        The lighting is dramatic, emphasizing the depth and realism of his facial features, making this a visually compelling and historically informative illustration suitable for an academic history book.
+    image_prompt fieldı, cümleye ait oluşturulacak görsel ile ilgili açıklayıcı bir prompt içerecek.
+    Oluşturulacak görsel akademik tarih kitaplarında kullanılacak bir görsel olacak.  
+    No text. 
+    Lush oil painting style. 
+    Dimensions should be close to {dimension_type} aspect ratio."
+    Olması gereken örnek prompt: 
+      "An Lush oil painting style portrait of Genghis Khan, depicted in exquisite detail, wearing traditional Mongolian attire.
+      No writing or text should be included in the image. Dimensions should be close to {dimension_type} aspect ratio.
+      Dimensions should be suitable for a full-page illustration in an academic history book: 
+      His face exudes strength, wisdom, and leadership, with piercing eyes and a commanding presence. 
+      The intricate embroidery and textures of his clothing reflect the richness of Mongolian culture. 
+      The background features a subtle, historically accurate Mongolian landscape, evoking the vastness of the empire he built. 
+      The lighting is dramatic, emphasizing the depth and realism of his facial features, making this a visually compelling and historically informative illustration suitable for an academic history book."
     
       Ayrıca image_prompt için üreteceğin promptlar Dall-E modeli kullanılarak görsel üretecek bu yüzden üreteceğin prompt'un dall-e güvenlik sistemi açısından bir engel oluşturmaması gerekli.
       Üreteceğin promptların hiçbir şekilde şiddet, cinsellik, ırkçılık, nefret söylemi ve benzeri şeyler içermemeli. 
@@ -45,16 +63,14 @@ writing_task:
       Aynı zamanda sorulan soru ile ilgili verilen cevabın genel temasıyla da paralellik sağla.
       image_prompt için oluşturduğun promptlar dall-e'de yaratılacak görseller için kullanılacak. Bu görsellerin ultrarealistic olması gerekli. 
       Görsellerin gerçekçiliği, kullanıcıların konuyu daha iyi anlamasına yardımcı olacak o yüzden promptlarını açıklayıcı bir şekilde oluştur.
-      
     
     Bu cümleler çok daha uzun olabilir, önemli olan 5 dakikalık süre içerisinde sorulan soruya cevap verebilecek şekilde olması.
     sentences listesindeki cümlelerin toplam uzunluğu ortalama 5 dakikalık bir videoda anlatılabilecek kadar olmalı.
     
-    
     tags fieldı için 5 tane tag belirleyeceksin. Bu tagler verilen soru ile ilgili olmalı.
-    taglar {language} dilinde olmalı.
-      Örneğin: verilen question "Türkiye'nin en büyük gölü?" ise, tagler #Van Gölü, #Türkiye, #Göl, #Doğa, #Tatil olabilir.
-      Örneğin: verilen question "largest lake in Turkey?" ise, tagler #Van Lake, #Turkey, #Lake, #Nature, #Holiday olabilir.    
+    taglar {language} dilinde {analogy} ile ilişkili olmalı.
+      Örneğin: verilen question "Türkiye'nin en büyük gölü?" ise, tagler #Van Gölü, #elma, #Türkiye, #Göl, #Doğa, #Tatil olabilir.
+      Örneğin: verilen question "largest lake in Turkey?" ise, tagler #Van Lake, #apple, #Turkey, #Lake, #Nature, #Holiday olabilir.    
 
   expected_output: >
     The output must follow the pydantic schema strictly. There will be penalty if not followed.

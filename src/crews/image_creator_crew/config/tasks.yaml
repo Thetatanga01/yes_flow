@@ -2,7 +2,6 @@
 create_image_task:
   description: >
     The images should be generated using the DALL-E model.
-    resolutions of the images should be {width}x{height}.
     You should generate {number_of_images} images.
     {save_path} is the folder where you should save the images.
     You will use {prompt_list} prompts to generate the images.

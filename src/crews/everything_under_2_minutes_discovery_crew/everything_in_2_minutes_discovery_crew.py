@@ -18,6 +18,7 @@ class Sentence(BaseModel):
 
 class Data(BaseModel):
     language: str
+    analogy: str
     question: str
     tags: str
     sentences: List[Sentence]
@@ -36,7 +37,7 @@ class EverythingIn2MinutesStoryCrew:
 
     chatgpt_llm = LLM(
         api_key=os.getenv("OPENAI_API_KEY"),
-        model="gpt-4o",
+        model="gpt-4o-mini",
         max_tokens=8000,
         temperature=0.0
     )
