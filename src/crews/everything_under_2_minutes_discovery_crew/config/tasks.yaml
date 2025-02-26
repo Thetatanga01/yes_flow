@@ -6,7 +6,7 @@ writing_task:
     Örneğin: Enerji nedir diye sorulduğunda enerjiyi ve enerji ile alakalı her terimi elma ile açıklayarak cevap vereceksin.
     
     Verdiğin cevabı cümleler halinde sentences listesine ekleyeceksin. sentences listesinin 3 adet fieldı var, number, image_prompt ve text.
-        Verdiğin yanıt toplamda 20 sentence itemından oluşacak ve içinde mutlaka en az 5 tane az bilinen fakat okuyucunun çokça ilgisini çekeceği bilgi veya anektod olacak.     
+        Verdiğin yanıt toplamda 10 sentence itemından oluşacak ve içinde mutlaka okuyucunun çokça ilgisini çekeceği bilgi veya anektodlar olacak.     
         number fieldı cümlenin sırasını belirtirken, text fieldı cümleyi belirtecek.
         Birinci sentence her zaman aşağıdaki formatta olacak:
           Örneğin: question fieldı "Türkiye'nin en büyük gölü" diye verildiyse,

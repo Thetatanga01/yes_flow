@@ -25,7 +25,7 @@ def kickoff():
         yes_flow.kickoff()
     else:
         everything_in_2_minutes_flow = EverythingIn2MinutesFlow()
-        everything_in_2_minutes_flow.kickoff()
+        everything_in_2_minutes_flow.generate_video()
 
 
 #for test purposes

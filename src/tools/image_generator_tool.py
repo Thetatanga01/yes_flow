@@ -58,11 +58,10 @@ class ImageGeneratorTool(BaseTool):
         for i, prompt in enumerate(prompt_list):
             prompt = prompt.strip()
             try:
-                full_prompt = prompt + ". Ultrarealistic and high resolution."
-                print(f"{full_prompt} prompt'i ile resim oluşturuluyor...")
+                print(f"{prompt} prompt'i ile resim oluşturuluyor...")
                 response = client.images.generate(
                     model=model,
-                    prompt=full_prompt,
+                    prompt=prompt,
                     size=f"{width}x{height}",
                     quality="standard",
                     n=1)

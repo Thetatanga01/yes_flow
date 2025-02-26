@@ -144,14 +144,22 @@ class VideoGeneratorTool(BaseTool):
         # Metni satırlara böl
         lines = textwrap.fill(text, width=width).split('\n')
 
+        # Font boyutu
+        font_size = 50
+
+        # Satır yüksekliğini font boyutuna göre hesapla
+        # Genellikle font boyutunun 1.2-1.5 katı iyi bir satır yüksekliği sağlar
+        line_height_factor = 1.4
+        line_height = int(font_size * line_height_factor)
+
         # Her satır için y pozisyonunu hesapla
         total_lines = len(lines)
-        line_height = 70  # Satırlar arası yükseklik
-        start_y = f"(h-{total_lines}*{line_height})/2"  # Dikey ortalama
+
+        # Alt kısımda hizalama için başlangıç y pozisyonu
+        start_y = f"h-{total_lines}*{line_height}-50"
 
         # Her satır için ayrı drawtext filtresi oluştur
         drawtext_commands = []
-        # fontfile = "/System/Library/Fonts/SFArabic.ttf"
 
         for i, line in enumerate(lines):
             # FFmpeg için özel karakterleri escape et
@@ -161,7 +169,7 @@ class VideoGeneratorTool(BaseTool):
 
             command = (
                 f"drawtext=text='{line}':"
-                f"fontsize=60:fontcolor=white:"
+                f"fontsize={font_size}:fontcolor=white:"
                 f"box=1:boxcolor=black@0.5:boxborderw=10:"  # Siyah arka plan ve kenar kalınlığı
                 f"x=(w-text_w)/2:y={y_position}"
             )
